@@ -1,4 +1,4 @@
-# Breizh Kartenn
+# Chinoiseries
 
 ## Introduction
 

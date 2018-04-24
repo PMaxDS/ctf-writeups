@@ -10,15 +10,14 @@ Campus de Beaulieu, Université de Rennes 1
 
 [https://vimeo.com/265870042](https://vimeo.com/265870042)
 
-## Classement
-
-![breizhctf2k18-clasement.jpeg](./ressources/breizhctf2k18-clasement.jpeg)
 
 ## Write-ups
 
 **Equipe** : ThinkPothers
-**Points** : ~1400 pts
-**Classement** : ~35ème
+
+**Points** : 1401 pts
+
+**Classement** : 35/56
 
 
  - [BreizhKartenn](./BreizhKartenn) (programmation, 300 pts)

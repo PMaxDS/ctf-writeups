@@ -8,7 +8,7 @@
 
 **Flager** : PLT
 
-La description de l'épreuve contient une ip avec un port. En chargeant la page on récupère un code php.
+La description de l'épreuve contient une ip avec un port. En chargeant la page, on récupère un code php.
 
 ```zsh
 curl 148.60.87.243 44815
@@ -53,9 +53,9 @@ curl 148.60.87.243 44815
 
 ## Analyse
 
-La première ligne `show_source(__FILE__);` permet de comprendre que le code php affiché correspond au script PHP qui s'execute sur le serveur.
+La première ligne `show_source(__FILE__);` permet de comprendre que le code php affiché correspond au script PHP qui s'exécute sur le serveur.
 
-A la fin du fichier on peut voir qu'il faut passer les variables `$i01`, `$i02` et `$i03` à *true* pour que le fichier `flag.php` s'execute et affiche le *flag*.
+A la fin du fichier, on peut voir qu'il faut passer les variables `$i01`, `$i02` et `$i03` à *true* pour que le fichier `flag.php` s'exécute et affiche le *flag*.
 
 ```php
 if($i01 && $i02 && $i03){
@@ -64,7 +64,7 @@ if($i01 && $i02 && $i03){
 }
 ```
 
-En analysant le code on remarque des lignes qui semblent en contradiction :
+En analysant le code, on remarque des lignes qui semblent en contradiction :
 
 ```php
 is_numeric(@$a["Jte_laisse_tirer_sur_ma_chicha"])?die("brrrrah"):NULL;
@@ -72,7 +72,7 @@ is_numeric(@$a["Jte_laisse_tirer_sur_ma_chicha"])?die("brrrrah"):NULL;
 $a["Jte_laisse_tirer_sur_ma_chicha"]>2017)?$i01=1:NULL;
 ```
 
-Ici la valeur de `$a["Jte_laisse_tirer_sur_ma_chicha"]` ne doit pas être numérique mais doit pourtant être supérieure à `2017`. [Chinoiserie](http://www.larousse.fr/dictionnaires/francais/chinoiserie/15393)
+Ici, la valeur de `$a["Jte_laisse_tirer_sur_ma_chicha"]` ne doit pas être numérique mais doit pourtant être supérieure à `2017`. [Chinoiserie](http://www.larousse.fr/dictionnaires/francais/chinoiserie/15393)
  vous avez dit ?
 
 On imagine donc qu'il faut abuser la façon dont PHP interprète les différents types. On appelle cette pratique "manipulation de types" ou plus communément *type juggling*. 
@@ -90,7 +90,7 @@ Voici un document qui détail bien les différents techniques de *type juggling*
 
 ### Xdebug
 
-Dans ce genre d'épreuve il est important de passer un peu de temps à configurer un debuger avant de se lancer. Cela évite d'avancer en aveugle et vous donne une maitrise totale de l'execution. 
+Dans ce genre d'épreuve, il est important de passer un peu de temps à configurer un debuger avant de se lancer. Cela évite d'avancerà l'aveugle et vous donne une maitrise totale de l'exécution. 
 
 `xdebug` est un *debugger* PHP. Pour vérifier que xdebug est bien installé : `php -m | grep xdebug`
 
@@ -101,9 +101,9 @@ php -d xdebug.idekey=xdebug -d xdebug.profiler_enable=On \
 -d xdebug.autostart=On -d xdebug.remote_port=9000
 ```
 
-Il est également possible de configurer un envionemment web local avec Apache ou Nginx. Il faut alors activier et paramètrer `xdebug` dans les fichiers de configuration PHP.
+Il est également possible de configurer un environnement web local avec Apache ou Nginx. Il faut alors activer et paramétrer `xdebug` dans les fichiers de configuration PHP.
 
-Comme client Xdebug sur MacOS je conseil l'éditeur de texte Brackets avec l'extention [PHP Debugger](https://github.com/spocke/php-debugger).
+Comme client Xdebug sur MacOS, je conseille l'éditeur de texte Brackets avec l'extention [PHP Debugger](https://github.com/spocke/php-debugger).
 
 
 ![chinoiseries-xdebug-brackets.png](./chinoiseries-xdebug-brackets.png)
@@ -114,7 +114,7 @@ Comme client Xdebug sur MacOS je conseil l'éditeur de texte Brackets avec l'ext
 
 Les paramètres pour manipuler `$i01` et `$i02` viennent de `$_GET['kaaris']` qui doit contenir un JSON.
 
-La difficulté pour avoir la variable `$i01` à `true` est qu'il faut valider deux conditions entagonistes :
+La difficulté pour avoir la variable `$i01` à `true` est qu'il faut valider deux conditions antagonistes :
 
 ```php
 is_numeric(@$a["Jte_laisse_tirer_sur_ma_chicha"])?die("brrrrah"):NULL;
@@ -126,12 +126,12 @@ $a["Jte_laisse_tirer_sur_ma_chicha"]>2017)?$i01=1:NULL;
 
 Une valeur possible est `"2018m"`.
 
-`is_numeric`considère que `"2018m"` n'est pas une valuer numérique.
+`is_numeric` considère que `"2018m"` n'est pas une valeur numérique.
 >http://php.net/manual/fr/function.is-numeric.php
 > 
->Détermine si la variable donnée est de type numérique. Les chaînes numériques sont composées optionnellement de signes, de n'importe quel nombre de chiffres, optionnellement d'une partie décimale ainsi qu'une partie exponentielle. +0123.45e6 est une valeur numérique valide. Les notations hexadécimale (i.e. 0xf4c3b00c) et binaire (i.e. 0b10100111001) ne sont pas autorisées.
+>Détermine si la variable donnée est de type numérique. Les chaînes numériques sont composées optionnellement de signes, de n'importe quel nombre de chiffres, optionnellement d'une partie décimale ainsi qu'une partie exponentielle. +0123.45e6 est une valeur numérique valide. Les notations hexadécimales (i.e. 0xf4c3b00c) et binaires (i.e. 0b10100111001) ne sont pas autorisées.
 
-Quand une chaine de caractère est comparé à un type numérique, PHP utilise la fonction `intval` pour évaluer la chaine. Or `intval("2018m")` retourne `2018`
+Quand une chaine de caractère est comparé à un type numérique, PHP utilise la fonction `intval` pour l'évaluer. Or, `intval("2018m")` retourne `2018`
 
 (voir [PHPMagicTricks-TypeJuggling.pdf](PHPMagicTricks-TypeJuggling.pdf) page 8 et 9)
 
@@ -142,9 +142,9 @@ Pas de difficulté particulière ensuite.
 La difficulté pour avoir $i03 à `true` est de passer cette condition
 `if(!strcmp($c[1],$d) && $c[1]!==$d)`
 
-Ma première approche fut d'utiliser `$c[1]=1` et `$d='1'` se qui marchaint bien. Sauf que `1` passé en paramètre dans l'url ne donne pas un entier mais un string. Donc on se retrouve finalement avec `$c[1]='1'` et `$d='1'`.
+Ma première approche fut d'utiliser `$c[1]=1` et `$d='1'` ce qui marchait bien. Sauf que `1` passé en paramètre dans l'url ne donne pas un entier mais un string. Donc on se retrouve finalement avec `$c[1]='1'` et `$d='1'`.
 
-Pour passer cette condition il faut que `$d` soit un tableau : `http://148.60.87.243:44815/?seufs[]=&...`
+Pour passer cette condition, il faut que `$d` soit un tableau : `http://148.60.87.243:44815/?seufs[]=&...`
 
 (voir [PHPMagicTricks-TypeJuggling.pdf](PHPMagicTricks-TypeJuggling.pdf) page 35). 
 
@@ -158,7 +158,7 @@ http://148.60.87.243:44815/?seufs[]=&meufs[]=_Diarabi%2c%20diarabi%2c%20faut%20q
 
 ## Bilan
 
- - Peux d'inconnes dans cette épreuve car le code source est visible.
+ - Peu d'inconnues dans cette épreuve car le code source est visible.
  - Necessite d'avoir une environnement PHP avec un serveur local ou de bien connaitre les finesses du *type juggling* PHP.
 
 

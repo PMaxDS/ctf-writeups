@@ -57,7 +57,7 @@ La première ligne `show_source(__FILE__);` permet de comprendre que le code php
 
 A la fin du fichier on peut voir qu'il faut passer les variables `$i01`, `$i02` et `$i03` à *true* pour que le fichier `flag.php` s'execute et affiche le *flag*.
 
-```
+```php
 if($i01 && $i02 && $i03){
        include "flag.php";
        echo $FL4G;
@@ -66,9 +66,9 @@ if($i01 && $i02 && $i03){
 
 En analysant le code on remarque des lignes qui semblent en contradiction :
 
-```
+```php
 is_numeric(@$a["Jte_laisse_tirer_sur_ma_chicha"])?die("brrrrah"):NULL;
-...
+//...
 $a["Jte_laisse_tirer_sur_ma_chicha"]>2017)?$i01=1:NULL;
 ```
 
@@ -95,7 +95,7 @@ Dans ce genre d'épreuve il est important de passer un peu de temps à configure
 `xdebug` est un *debugger* PHP. Pour vérifier que xdebug est bien installé : `php -m | grep xdebug`
 
 Pour lancer le script en mode debug depuis la ligne de commande :
-```zsh
+```console
 php -d xdebug.idekey=xdebug -d xdebug.profiler_enable=On \
 -d xdebug.remote_enable=On -d xdebug.remote_autostart=On \
 -d xdebug.autostart=On -d xdebug.remote_port=9000
@@ -116,11 +116,11 @@ Les paramètres pour manipuler `$i01` et `$i02` viennent de `$_GET['kaaris']` qu
 
 La difficulté pour avoir la variable `$i01` à `true` est qu'il faut valider deux conditions entagonistes :
 
-``` php
+```php
 is_numeric(@$a["Jte_laisse_tirer_sur_ma_chicha"])?die("brrrrah"):NULL;
 ```
 
-```
+```php
 $a["Jte_laisse_tirer_sur_ma_chicha"]>2017)?$i01=1:NULL;
 ```
 

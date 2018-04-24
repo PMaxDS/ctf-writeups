@@ -6,6 +6,8 @@
 
 **Points** : 300
 
+**Flager** : PLT
+
 La description de l'épreuve contient une ip avec un port. Les instructions apparaissent une fois connecté en telnet.
 
 ```zsh
@@ -24,7 +26,7 @@ Il faut bien sur répondre avec le nom de la ville correspondant au code postal.
 
 ![breizhkartenn.png](breizhkartenn.png)
 
-## Stratégie
+## Analyse
 
 A première vue, l'épreuve ne présente pas d'inconnues ni de compléxité particulière. Un script Python permettra de répondre automatiquement aux questions.
 
@@ -40,6 +42,8 @@ Pourtant, il existe plusieurs difficultés :
  - IDE : PyCharm CE
 
 ## Implémentation
+
+###[breizhkartenn.py](./breizhkartenn.py)
 
 ### Client *telnet*
 
@@ -82,9 +86,7 @@ Aucune de ces sources n'a permis de valider l'épreuve :
 
 #### bzh3.csv
 
-Finalement, la page qui permet de créer la source des villes et codes postaux est dévoilée. On peut donc créer un fichier `csv` en parsant la page.
-
-Avec le `User-Agent` par défaut le site renvoie une 403 donc il faut utiliser `curl -A`
+Finalement, la page qui a permis de créer la source des villes et codes postaux est dévoilée. On peut donc créer un fichier `csv` en parsant la page.
 
 ```zsh
 curl -A "Firefox" http://www.linternaute.com/ville/bretagne/region-53/villes |
@@ -92,6 +94,8 @@ grep -A 2 "Bretagne : les principales villes de la région" |
 grep -Eo '[^>]+ \(\d+\)' |
 sed -E 's/^(.+) \(([0-9]{5}).+$/\1;\2;/' > bzh3.csv
 ```
+Avec le `User-Agent` par défaut le site renvoie une 403 donc il faut utiliser `curl -A`
+
 Il reste cependant des doublons de codes postaux et plusieurs villes génèrent des erreurs.
 
 Il a été necessaire de corriger manuellement certaines villes, puis, après quelques relances, le *flag* est apparu. Heureusement, il n'a fallu que 42 réponses pour valider l'épreuve et pas 600 comme indiqué dans les instructions.
@@ -105,6 +109,6 @@ Il a été necessaire de corriger manuellement certaines villes, puis, après qu
 
 ### Les -
 
- - On regrette que le serveur n'ait pas été configuré pour être plus permissif sur le nom des villes. J'ai passé plus de la moitié de l'épreuve à essayer de corriger mes listes de codes postaux. Ce n'est que lorsque l'indice a été donné que j'ai été débloqué.
+ - On regrette que le serveur n'ait pas été configuré pour être plus permissif sur le nom des villes et les doublons de code postaux. J'ai passé plus de la moitié de l'épreuve à essayer de corriger mes listes de codes postaux. Ce n'est que lorsque l'indice a été donné que j'ai été débloqué.
 
 
